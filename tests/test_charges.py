@@ -40,3 +40,11 @@ class TestCharges:
         exc = excinfo.value
         assert exc.type == 'invalid_request_error'
         assert exc.param == 'id'
+
+    def test_all(self):
+        with HTTMock(helper.mock_api('/charges', 'charges/all.txt')):
+            charges = WebPay('test_api').charges.all(count = 3, offset = 0, created = {'gt': 1378000000})
+
+        assert charges.url == '/v1/charges'
+        assert charges.data[0].description == 'Test Charge from Java'
+        assert charges.data[0].card.name == 'KEI KUBO'

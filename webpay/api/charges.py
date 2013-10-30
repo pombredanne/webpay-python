@@ -1,4 +1,5 @@
 from webpay.model.charge import Charge
+from webpay.model.entity_list import EntityList
 import webpay.errors
 
 def assertId(id):
@@ -15,3 +16,6 @@ class Charges:
     def retrieve(self, id):
         assertId(id)
         return Charge(self.__client, self.__client.get('/charges/' + id))
+
+    def all(self, **params):
+        return EntityList(self.__client, self.__client.get('/charges', params))
