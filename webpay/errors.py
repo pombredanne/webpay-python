@@ -34,7 +34,7 @@ class CardError(WebPayError):
     """
 
     def __init__(self, status, error_info):
-        WebPayError.__init__(self, error_into['message'], status, error_info)
+        WebPayError.__init__(self, error_info['message'], status, error_info)
         self.type = error_info['type']
         self.code = error_info['code']
         self.param = error_info['param']
