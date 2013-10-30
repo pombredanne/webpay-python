@@ -19,3 +19,7 @@ class Charges:
 
     def all(self, **params):
         return EntityList(self.__client, self.__client.get('/charges', params))
+
+    def refund(self, id, amount = None):
+        assertId(id)
+        return Charge(self.__client, self.__client.post('/charges/%s/refund' % id, {'amount': amount}))

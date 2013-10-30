@@ -48,3 +48,24 @@ class TestCharges:
         assert charges.url == '/v1/charges'
         assert charges.data[0].description == 'Test Charge from Java'
         assert charges.data[0].card.name == 'KEI KUBO'
+
+    def test_refund(self):
+        id = 'ch_bWp5EG9smcCYeEx'
+        with HTTMock(helper.mock_api('/charges/' + id, 'charges/retrieve.txt')):
+            charge = WebPay('test_key').charges.retrieve(id)
+        with HTTMock(helper.mock_api('/charges/%s/refund' % id, 'charges/refund.txt')):
+            charge.refund(400)
+
+        assert charge.refunded
+        assert charge.amount_refunded == 400
+
+
+    def test_refund_without_amount(self):
+        id = 'ch_bWp5EG9smcCYeEx'
+        with HTTMock(helper.mock_api('/charges/' + id, 'charges/retrieve.txt')):
+            charge = WebPay('test_key').charges.retrieve(id)
+        with HTTMock(helper.mock_api('/charges/%s/refund' % id, 'charges/refund.txt')):
+            charge.refund()
+
+        assert charge.refunded
+        assert charge.amount_refunded == 400
