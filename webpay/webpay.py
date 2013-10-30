@@ -1,4 +1,4 @@
-from .api import Account, Charges
+from .api import Account, Charges, Customers
 import requests
 
 class WebPay:
@@ -7,6 +7,7 @@ class WebPay:
         self.api_base = api_base
         self.account = Account(self)
         self.charges = Charges(self)
+        self.customers = Customers(self)
 
     def post(self, path, params):
         r = requests.post(self.api_base + path, auth = (self.key, ''), params = params)

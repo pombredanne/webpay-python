@@ -10,13 +10,13 @@ def data_to_object_converter(client):
         if object == 'charge':
             return model.charge.Charge(client, data)
         elif object == 'customer':
-            return model.charge.Customer(client, data)
+            return model.customer.Customer(client, data)
         elif object == 'event':
-            return model.charge.Event(client, data)
+            return model.event.Event(client, data)
         elif object == 'token':
-            return model.charge.Token(client, data)
+            return model.token.Token(client, data)
         elif object == 'account':
-            return model.charge.Account(client, data)
+            return model.account.Account(client, data)
         else:
             raise webpay.errors.APIConnectionError('Unknown object type ' + object, None, None, None)
 

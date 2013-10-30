@@ -1,10 +1,6 @@
 from webpay.model.charge import Charge
 from webpay.model.entity_list import EntityList
-import webpay.errors
-
-def assertId(id):
-    if id is None or id.strip() == '':
-        raise webpay.errors.InvalidRequestError.empty_id_error()
+from .helpers import assertId
 
 class Charges:
     def __init__(self, webpay):
