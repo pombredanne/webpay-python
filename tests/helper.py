@@ -1,7 +1,12 @@
-def mock_api(path, file_path):
+def mock_api(path, file_path, query = None, data = None):
     from httmock import urlmatch, response
+    import json
+
     @urlmatch(scheme = 'https', netloc = 'api.webpay.jp', path = '/v1' + path)
     def webpay_api_mock(url, request):
+        assert query is None or url.query == query
+        assert data is None or json.loads(request.body) == data
+
         from os import path
         import codecs
         dump = path.dirname(path.abspath(__file__)) + '/mock/' + file_path
