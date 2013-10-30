@@ -23,3 +23,7 @@ class Charges:
     def refund(self, id, amount = None):
         assertId(id)
         return Charge(self.__client, self.__client.post('/charges/%s/refund' % id, {'amount': amount}))
+
+    def capture(self, id, amount = None):
+        assertId(id)
+        return Charge(self.__client, self.__client.post('/charges/%s/capture' % id, {'amount': amount}))

@@ -69,3 +69,14 @@ class TestCharges:
 
         assert charge.refunded
         assert charge.amount_refunded == 400
+
+    def test_capture(self):
+        id = 'ch_2X01NDedxdrRcA3'
+        with HTTMock(helper.mock_api('/charges/' + id, 'charges/retrieve_not_captured.txt')):
+            charge = WebPay('test_key').charges.retrieve(id)
+        with HTTMock(helper.mock_api('/charges/%s/capture' % id, 'charges/capture.txt')):
+            charge.capture(1000)
+
+        assert charge.captured
+        assert charge.paid
+        assert charge.amount == 1000
