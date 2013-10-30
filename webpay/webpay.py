@@ -10,3 +10,7 @@ class WebPay:
     def post(self, path, params):
         r = requests.post(self.api_base + path, auth = (self.key, ''), params = params)
         return r.json()
+
+    def get(self, path, params = {}):
+        r = requests.get(self.api_base + path, auth = (self.key, ''), params = params)
+        return r.json()
