@@ -15,3 +15,9 @@ class Customers:
 
     def all(self, **params):
         return EntityList(self.__client, self.__client.get('/customers', params))
+
+    def save(self, id, **params):
+        """Update attributes of the customer identified by `id`
+        """
+        assertId(id)
+        return Customer(self.__client, self.__client.post('/customers/' + id, params))

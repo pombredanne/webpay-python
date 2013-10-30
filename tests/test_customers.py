@@ -47,3 +47,71 @@ class TestCustomers:
         assert customers.url == '/v1/customers'
         assert customers.data[0].description == 'Test Customer from Java'
         assert customers.data[0].active_card.name == 'YUUKO SHIONJI'
+
+    def test_save(self):
+        id = 'cus_39o4Fv82E1et5Xb'
+        with HTTMock(helper.mock_api('/customers/' + id, 'customers/retrieve.txt')):
+            customer = WebPay('test_key').customers.retrieve(id)
+
+        old_card = customer.active_card
+
+        expected = {
+            'email': 'newmail@example.com',
+            'description': 'New description',
+            'card': {
+                'number': '4242-4242-4242-4242',
+                'exp_month': 12,
+                'exp_year': 2016,
+                'cvc': 123,
+                'name': 'YUUKO SHIONJI',
+                }}
+
+        customer.email = expected['email']
+        customer.description = expected['description']
+        customer.new_card = expected['card']
+
+        assert customer.email == 'newmail@example.com'
+        assert customer.active_card == old_card
+
+        with HTTMock(helper.mock_api('/customers/' + id, 'customers/update.txt', data = expected)):
+            customer.save()
+
+        assert customer.email == 'newmail@example.com'
+        assert customer.active_card.exp_year == 2016
+
+    def test_save_only_updated_fields(self):
+        id = 'cus_39o4Fv82E1et5Xb'
+        with HTTMock(helper.mock_api('/customers/' + id, 'customers/retrieve.txt')):
+            customer = WebPay('test_key').customers.retrieve(id)
+
+        customer.email = 'newmail@example.com'
+        with HTTMock(helper.mock_api('/customers/' + id, 'customers/update.txt', data = {'email': 'newmail@example.com'})):
+            customer.save()
+        assert customer.email == 'newmail@example.com'
+
+    def test_calling_save_twice_sends_nothing(self):
+        id = 'cus_39o4Fv82E1et5Xb'
+        with HTTMock(helper.mock_api('/customers/' + id, 'customers/retrieve.txt')):
+            customer = WebPay('test_key').customers.retrieve(id)
+
+        expected = {
+            'card': {
+                'number': '4242-4242-4242-4242',
+                'exp_month': 12,
+                'exp_year': 2016,
+                'cvc': 123,
+                'name': 'YUUKO SHIONJI',
+                },
+            'email': 'newmail@example.com',
+            'description': 'New description',
+            }
+
+        customer.email = expected['email']
+        customer.description = expected['description']
+        customer.new_card = expected['card']
+
+        with HTTMock(helper.mock_api('/customers/' + id, 'customers/update.txt', data = expected)):
+            customer.save()
+
+        with HTTMock(helper.mock_api('/customers/' + id, 'customers/update.txt', data = {})):
+            customer.save()
