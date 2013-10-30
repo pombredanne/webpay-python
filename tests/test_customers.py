@@ -41,8 +41,9 @@ class TestCustomers:
         assert exc.param == 'id'
 
     def test_all(self):
-        with HTTMock(helper.mock_api('/customers', 'customers/all.txt')):
-            customers = WebPay('test_api').customers.all(count = 3, offset = 0, created = {'gt': 1378000000})
+        conds = {'count': 3, 'offset': 0, 'created': {'gt': 1378000000}}
+        with HTTMock(helper.mock_api('/customers', 'customers/all.txt', data = conds)):
+            customers = WebPay('test_api').customers.all(**conds)
 
         assert customers.url == '/v1/customers'
         assert customers.data[0].description == 'Test Customer from Java'
