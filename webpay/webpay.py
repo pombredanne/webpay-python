@@ -1,4 +1,4 @@
-from .api import Account, Charges, Customers
+from .api import Account, Charges, Customers, Events
 import requests
 import json
 
@@ -21,6 +21,7 @@ class WebPay:
         self.account = Account(self)
         self.charges = Charges(self)
         self.customers = Customers(self)
+        self.events = Events(self)
 
     def post(self, path, params):
         r = requests.post(self.api_base + path, auth = (self.key, ''), data = json.dumps(params), headers = self._headers)
