@@ -1,4 +1,4 @@
-from webpay.api import Charges
+from .api import Charges
 import requests
 
 class WebPay:

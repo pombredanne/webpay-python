@@ -3,8 +3,9 @@ def mock_api(path, file_path):
     @urlmatch(scheme = 'https', netloc = 'api.webpay.jp', path = '/v1' + path)
     def webpay_api_mock(url, request):
         from os import path
+        import codecs
         dump = path.dirname(path.abspath(__file__)) + '/mock/' + file_path
-        file = open(dump)
+        file = codecs.open(dump, 'r', 'utf-8')
         lines = file.readlines()
         file.close
 

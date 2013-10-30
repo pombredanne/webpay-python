@@ -1,3 +1,4 @@
+# coding: utf-8
 from webpay.webpay import WebPay
 from httmock import HTTMock
 import pytest
@@ -31,7 +32,7 @@ class TestCharges:
             charge = WebPay('test_key').charges.retrieve(id)
 
         assert charge.id == id
-        assert charge.description == 'アイテムの購入'
+        assert charge.description == u'アイテムの購入'
         assert charge.card.name == 'KEI KUBO'
 
     def test_retrieve_without_id(self):
