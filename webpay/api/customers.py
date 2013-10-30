@@ -21,3 +21,10 @@ class Customers:
         """
         assertId(id)
         return Customer(self.__client, self.__client.post('/customers/' + id, params))
+
+    def delete(self, id):
+        """Delete the customer identified by `id`
+        Return `True` if it is successfully deleted.
+        """
+        assertId(id)
+        return self.__client.delete('/customers/' + id)['deleted']

@@ -115,3 +115,11 @@ class TestCustomers:
 
         with HTTMock(helper.mock_api('/customers/' + id, 'customers/update.txt', data = {})):
             customer.save()
+
+    def test_delete(self):
+        id = 'cus_39o4Fv82E1et5Xb'
+        with HTTMock(helper.mock_api('/customers/' + id, 'customers/retrieve.txt')):
+            customer = WebPay('test_key').customers.retrieve(id)
+
+        with HTTMock(helper.mock_api('/customers/' + id, 'customers/delete.txt')):
+            assert customer.delete()

@@ -28,6 +28,11 @@ class Customer:
 
         self._update_attributes(self.__client.customers.save(self.id, **params))
 
+    def delete(self):
+        """Delete this customer from WebPay
+        """
+        return self.__client.customers.delete(self.id)
+
     def _update_attributes(self, new_customer):
         self.__data = new_customer.__data
         for k, v in new_customer.__data.items():
