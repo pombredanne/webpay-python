@@ -1,38 +1,11 @@
 from webpay.webpay import WebPay
-from httmock import urlmatch, HTTMock, response
-from os import path
+from httmock import HTTMock
+import tests.helper as helper
 
 class TestCharges:
     def test_create(self):
-        @urlmatch(scheme = 'https', netloc = 'api.webpay.jp', path = '/v1/charges')
-        def create_charge_mock(url, request):
-            dump = path.dirname(path.abspath(__file__)) + '/mock/charges/create.txt'
-            file = open(dump)
-            lines = file.readlines()
-            file.close
-
-            status = 0
-            headers = {}
-            body = ''
-            body_started = False
-
-            for i in range(len(lines)):
-                line = lines[i]
-                if i == 0:
-                    status = int(line.split(' ')[1])
-                elif body_started:
-                    body += line
-                elif (line.strip() == ''):
-                    body_started = True
-                else:
-                    key, value = line.split(':', 1)
-                    headers[key] = value.strip()
-
-            return response(status, content = body.encode('utf-8'), headers = headers, request = request)
-
-        webpay = WebPay('test_key')
-        with HTTMock(create_charge_mock):
-            charge = webpay.charges.create(
+        with HTTMock(helper.mock_api('/charges', 'charges/create.txt')):
+            charge = WebPay('test_key').charges.create(
                 amount = 1000,
                 currecy = 'jpy',
                 card = {
