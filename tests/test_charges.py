@@ -32,7 +32,8 @@ class TestCharges:
             charge = WebPay('test_key').charges.retrieve(id)
 
         assert charge.id == id
-        assert charge.description == u'アイテムの購入'
+        # アイテムの購入
+        assert charge.description.encode('utf-8') == b'\xe3\x82\xa2\xe3\x82\xa4\xe3\x83\x86\xe3\x83\xa0\xe3\x81\xae\xe8\xb3\xbc\xe5\x85\xa5'
         assert charge.card.name == 'KEI KUBO'
 
     def test_retrieve_without_id(self):
