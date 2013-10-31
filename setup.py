@@ -4,7 +4,7 @@ class PyTest(Command):
     user_options = []
     def initialize_options(self):
         pass
-    def fnalize_options(self):
+    def finalize_options(self):
         pass
     def run(self):
         import sys, subprocess
