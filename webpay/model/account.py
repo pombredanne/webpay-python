@@ -1,7 +1,5 @@
-class Account:
-    def __init__(self, client, data):
-        self.__client = client
-        self.__data = data
+from .model import Model
 
-        for k, v in data.items():
-            self.__dict__[k] = v
+class Account(Model):
+    def __init__(self, client, data):
+        Model.__init__(self, client, data)

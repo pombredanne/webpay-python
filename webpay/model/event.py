@@ -1,15 +1,10 @@
 from .helpers import data_to_object_converter
+from .model import Model
 
-class Event:
+class Event(Model):
     def __init__(self, client, data):
-        self.__data = data
+        Model.__init__(self, client, data, lambda k: EventData if k == 'data' else None)
 
-        for k, v in data.items():
-            self.__dict__[k] = EventData(client, v) if k == 'data' else v
-
-class EventData:
+class EventData(Model):
     def __init__(self, client, data):
-        self.__data = data
-
-        for k, v in data.items():
-            self.__dict__[k] = data_to_object_converter(client)(v) if k == 'object' else v
+        Model.__init__(self, client, data, lambda k: (lambda c, v: data_to_object_converter(c)(v)) if k == 'object' else None)

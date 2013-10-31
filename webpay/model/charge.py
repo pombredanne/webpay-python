@@ -1,12 +1,9 @@
 from webpay.model.card import Card
+from .model import Model
 
-class Charge:
+class Charge(Model):
     def __init__(self, client, data):
-        self.__client = client
-        self.__data = data
-
-        for k, v in data.items():
-            self.__dict__[k] = Card(client, v) if k == 'card' else v
+        Model.__init__(self, client, data, lambda k: Card if k == 'card' else None)
 
     def refund(self, amount = None):
         """Refund this charge.
@@ -15,7 +12,7 @@ class Charge:
         - `amount`: amount to refund.  If `amount` is not given or `None`, refund all.
           If `amount` is less than this charge's amount, refund partially.
         """
-        self._update_attributes(self.__client.charges.refund(self.id, amount))
+        self._update_attributes(self._client.charges.refund(self.id, amount))
 
     def capture(self, amount = None):
         """Capture this charge.
@@ -24,8 +21,8 @@ class Charge:
         Arguments:
         - `amount`: amount to capture.  If `amount` is not given or `None`, use `this.amount`.
         """
-        self._update_attributes(self.__client.charges.capture(self.id, amount))
+        self._update_attributes(self._client.charges.capture(self.id, amount))
 
     def _update_attributes(self, new_charge):
-        for k, v in new_charge.__data.items():
-            self.__dict__[k] = Card(self.__client, v) if k == 'card' else v
+        for k, v in new_charge._data.items():
+            self.__dict__[k] = Card(self._client, v) if k == 'card' else v

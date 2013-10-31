@@ -1,9 +1,6 @@
 from webpay.model.card import Card
+from .model import Model
 
-class Token:
+class Token(Model):
     def __init__(self, client, data):
-        self.__client = client
-        self.__data = data
-
-        for k, v in data.items():
-            self.__dict__[k] = Card(client, v) if k == 'card' else v
+        Model.__init__(self, client, data, lambda k: Card if k == 'card' else None)
