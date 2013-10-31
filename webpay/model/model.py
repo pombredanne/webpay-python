@@ -13,4 +13,5 @@ class Model:
                 self.__dict__[k] = v if conv is None else conv(client, v)
 
     def __str__(self):
-        return '<webpay.model.%s.%s> %s' % (self.object, self.object.capitalize(), json.dumps(self._data, indent = 4, sort_keys = True))
+        t = type(self)
+        return '<%s.%s> %s' % (t.__module__, t.__name__, json.dumps(self._data, indent = 4, sort_keys = True))
