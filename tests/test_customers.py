@@ -31,6 +31,7 @@ class TestCustomers:
             customer = WebPay('test_key').customers.retrieve(id)
 
         assert customer.id == id
+        assert not customer.is_deleted()
         assert customer.active_card.name == 'YUUKO SHIONJI'
 
     def test_retrieve_without_id(self):
@@ -39,6 +40,14 @@ class TestCustomers:
         exc = excinfo.value
         assert exc.type == 'invalid_request_error'
         assert exc.param == 'id'
+
+    def test_retrieve_deleted_customer(self):
+        id = 'cus_7GafGMbML8R28Io'
+        with HTTMock(helper.mock_api('/customers/' + id, 'customers/retrieve_deleted.txt')):
+            customer = WebPay('test_key').customers.retrieve(id)
+
+        assert customer.id == id
+        assert customer.is_deleted()
 
     def test_all(self):
         conds = {'count': 3, 'offset': 0, 'created': {'gt': 1378000000}}

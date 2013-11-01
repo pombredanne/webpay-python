@@ -5,6 +5,11 @@ class Customer(Model):
     def __init__(self, client, data):
         Model.__init__(self, client, data, lambda k: Card if k == 'active_card' else None)
 
+    def is_deleted(self):
+        """ Always returns `False`
+        """
+        return False
+
     def save(self):
         """Save updated data to WebPay server.
 

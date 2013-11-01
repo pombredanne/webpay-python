@@ -1,4 +1,5 @@
 from webpay.model.customer import Customer
+from webpay.model.deleted_entity import DeletedEntity
 from webpay.model.entity_list import EntityList
 from .helpers import assertId
 
@@ -15,7 +16,11 @@ class Customers:
         """Get the customer identified by `id`
         """
         assertId(id)
-        return Customer(self.__client, self.__client.get('/customers/' + id))
+        response = self.__client.get('/customers/' + id)
+        if 'deleted' in response:
+            return DeletedEntity(self.__client, response)
+        else:
+            return Customer(self.__client, response)
 
     def all(self, **params):
         """List customers which meet given conditions.
