@@ -51,7 +51,7 @@ class WebPay:
             data = r.json()
         except Exception as exc:
             raise errors.ApiConnectionError("Error while parsing response JSON %s:%s\n%s" % (type(exc), exc, r.text), None, None, exc)
-        error_info = data['error'] if 'error' in data else None
+        error_info = data.get('error')
 
         if status >= 200 and status < 300:
             return data
