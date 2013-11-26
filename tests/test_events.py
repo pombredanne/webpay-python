@@ -6,7 +6,9 @@ import pytest
 import tests.helper as helper
 import webpay.errors as errors
 
+
 class TestEvents:
+
     def test_retrieve(self):
         id = 'evt_39o9oUevb5NCeM1'
         with HTTMock(helper.mock_api('/events/' + id, 'events/retrieve.txt')):
@@ -24,7 +26,7 @@ class TestEvents:
 
     def test_all(self):
         conds = {'type': '*.created'}
-        with HTTMock(helper.mock_api('/events', 'events/all_with_type.txt', data = conds)):
+        with HTTMock(helper.mock_api('/events', 'events/all_with_type.txt', data=conds)):
             events = WebPay('test_api').events.all(**conds)
 
         assert events.url == '/v1/events'

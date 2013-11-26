@@ -1,13 +1,19 @@
 import webpay.model.account
 
+
 class Account:
+
     def __init__(self, webpay):
         self.__client = webpay
 
     def retrieve(self):
         """Retrieve the account tagged with the current API key
         """
-        return webpay.model.account.Account(self.__client, self.__client.get('/account'))
+        return (
+            webpay.model.account.Account(
+                self.__client,
+                self.__client.get('/account'))
+        )
 
     def delete_data(self):
         """Delete all test data of this account.

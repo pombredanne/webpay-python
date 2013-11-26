@@ -1,9 +1,12 @@
 from webpay.model.card import Card
 from .model import Model
 
+
 class Customer(Model):
+
     def __init__(self, client, data):
-        Model.__init__(self, client, data, lambda k: Card if k == 'active_card' else None)
+        conversion = lambda k: Card if k == 'active_card' else None
+        Model.__init__(self, client, data, conversion)
 
     def is_deleted(self):
         """ Always returns `False`
@@ -38,4 +41,5 @@ class Customer(Model):
     def _update_attributes(self, new_customer):
         self._data = new_customer._data
         for k, v in new_customer._data.items():
-            self.__dict__[k] = Card(self._client, v) if k == 'active_card' else v
+            self.__dict__[k] = \
+                Card(self._client, v) if k == 'active_card' else v

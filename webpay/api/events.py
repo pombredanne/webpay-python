@@ -2,7 +2,9 @@ from webpay.model.event import Event
 from webpay.model.entity_list import EntityList
 from .helpers import assertId
 
+
 class Events:
+
     def __init__(self, webpay):
         self.__client = webpay
 

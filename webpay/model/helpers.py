@@ -1,6 +1,7 @@
 import webpay.model as model
 import webpay.errors
 
+
 def data_to_object_converter(client):
     """Return a function to convert entity dict data to entity object
     """
@@ -18,6 +19,7 @@ def data_to_object_converter(client):
         elif object == 'account':
             return model.account.Account(client, data)
         else:
-            raise webpay.errors.APIConnectionError('Unknown object type ' + object, None, None, None)
+            raise webpay.errors.APIConnectionError(
+                'Unknown object type ' + object, None, None, None)
 
     return converter

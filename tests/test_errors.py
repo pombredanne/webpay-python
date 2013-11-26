@@ -5,7 +5,9 @@ import pytest
 import tests.helper as helper
 import webpay.errors as errors
 
+
 class TestErrors:
+
     def test_request_raises_api_exception(self):
         with pytest.raises(errors.ApiError) as excinfo:
             with HTTMock(helper.mock_api('/charges', 'errors/unknown_api_error.txt')):
@@ -40,7 +42,8 @@ class TestErrors:
             with HTTMock(helper.mock_api('/charges', 'errors/unauthorized.txt')):
                 WebPay('test_key').charges.all()
         exc = excinfo.value
-        assert exc.__str__() == 'Invalid API key provided. Check your API key is correct.'
+        assert exc.__str__() == \
+            'Invalid API key provided. Check your API key is correct.'
         assert exc.status == 401
 
     def test_request_raises_card_error(self):

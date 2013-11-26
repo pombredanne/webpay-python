@@ -6,20 +6,22 @@ import pytest
 import tests.helper as helper
 import webpay.errors as errors
 
+
 class TestCustomers:
+
     def test_create(self):
         with HTTMock(helper.mock_api('/customers', 'customers/create.txt')):
             customer = WebPay('test_key').customers.create(
-                description = 'Test Customer from Java',
-                email = 'customer@example.com',
-                card = {
+                description='Test Customer from Java',
+                email='customer@example.com',
+                card={
                     'number': '4242-4242-4242-4242',
                     'exp_month': 12,
                     'exp_year': 2015,
                     'cvc': 123,
                     'name': 'YUUKO SHIONJI'
-                    },
-                )
+                },
+            )
 
         assert customer.id == 'cus_39o4Fv82E1et5Xb'
         assert customer.description == 'Test Customer from Java'
@@ -51,7 +53,7 @@ class TestCustomers:
 
     def test_all(self):
         conds = {'count': 3, 'offset': 0, 'created': {'gt': 1378000000}}
-        with HTTMock(helper.mock_api('/customers', 'customers/all.txt', data = conds)):
+        with HTTMock(helper.mock_api('/customers', 'customers/all.txt', data=conds)):
             customers = WebPay('test_api').customers.all(**conds)
 
         assert customers.url == '/v1/customers'
@@ -74,7 +76,7 @@ class TestCustomers:
                 'exp_year': 2016,
                 'cvc': 123,
                 'name': 'YUUKO SHIONJI',
-                }}
+            }}
 
         customer.email = expected['email']
         customer.description = expected['description']
@@ -83,7 +85,7 @@ class TestCustomers:
         assert customer.email == 'newmail@example.com'
         assert customer.active_card == old_card
 
-        with HTTMock(helper.mock_api('/customers/' + id, 'customers/update.txt', data = expected)):
+        with HTTMock(helper.mock_api('/customers/' + id, 'customers/update.txt', data=expected)):
             customer.save()
 
         assert customer.email == 'newmail@example.com'
@@ -95,7 +97,7 @@ class TestCustomers:
             customer = WebPay('test_key').customers.retrieve(id)
 
         customer.email = 'newmail@example.com'
-        with HTTMock(helper.mock_api('/customers/' + id, 'customers/update.txt', data = {'email': 'newmail@example.com'})):
+        with HTTMock(helper.mock_api('/customers/' + id, 'customers/update.txt', data={'email': 'newmail@example.com'})):
             customer.save()
         assert customer.email == 'newmail@example.com'
 
@@ -111,19 +113,19 @@ class TestCustomers:
                 'exp_year': 2016,
                 'cvc': 123,
                 'name': 'YUUKO SHIONJI',
-                },
+            },
             'email': 'newmail@example.com',
             'description': 'New description',
-            }
+        }
 
         customer.email = expected['email']
         customer.description = expected['description']
         customer.new_card = expected['card']
 
-        with HTTMock(helper.mock_api('/customers/' + id, 'customers/update.txt', data = expected)):
+        with HTTMock(helper.mock_api('/customers/' + id, 'customers/update.txt', data=expected)):
             customer.save()
 
-        with HTTMock(helper.mock_api('/customers/' + id, 'customers/update.txt', data = {})):
+        with HTTMock(helper.mock_api('/customers/' + id, 'customers/update.txt', data={})):
             customer.save()
 
     def test_delete(self):

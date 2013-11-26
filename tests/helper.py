@@ -1,8 +1,8 @@
-def mock_api(path, file_path, query = None, data = None):
+def mock_api(path, file_path, query=None, data=None):
     from httmock import urlmatch, response
     import json
 
-    @urlmatch(scheme = 'https', netloc = 'api.webpay.jp', path = '/v1' + path)
+    @urlmatch(scheme='https', netloc='api.webpay.jp', path='/v1' + path)
     def webpay_api_mock(url, request):
         assert query is None or url.query == query
         assert data is None or json.loads(request.body) == data
@@ -31,5 +31,8 @@ def mock_api(path, file_path, query = None, data = None):
                 key, value = line.split(':', 1)
                 headers[key] = value.strip()
 
-        return response(status, content = body.encode('utf-8'), headers = headers, request = request)
+        return response(status,
+                        content=body.encode('utf-8'),
+                        headers=headers,
+                        request=request)
     return webpay_api_mock

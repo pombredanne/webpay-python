@@ -3,7 +3,9 @@ from webpay.model.deleted_entity import DeletedEntity
 from webpay.model.entity_list import EntityList
 from .helpers import assertId
 
+
 class Customers:
+
     def __init__(self, webpay):
         self.__client = webpay
 
@@ -31,7 +33,14 @@ class Customers:
         """Update attributes of the customer identified by `id`
         """
         assertId(id)
-        return Customer(self.__client, self.__client.post('/customers/' + id, params))
+        return (
+            Customer(
+                self.__client,
+                self.__client.post(
+                    '/customers/' +
+                    id,
+                    params))
+        )
 
     def delete(self, id):
         """Delete the customer identified by `id`
