@@ -1,5 +1,4 @@
 from webpay.model.token import Token
-from webpay.model.entity_list import EntityList
 from .helpers import assertId
 
 

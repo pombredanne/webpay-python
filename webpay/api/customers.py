@@ -12,7 +12,8 @@ class Customers:
     def create(self, **params):
         """Create a customer with given params
         """
-        return Customer(self.__client, self.__client.post('/customers', params))
+        return Customer(self.__client, self.__client.post('/customers',
+                                                          params))
 
     def retrieve(self, id):
         """Get the customer identified by `id`
@@ -27,7 +28,8 @@ class Customers:
     def all(self, **params):
         """List customers which meet given conditions.
         """
-        return EntityList(self.__client, self.__client.get('/customers', params))
+        return EntityList(self.__client, self.__client.get('/customers',
+                                                           params))
 
     def save(self, id, **params):
         """Update attributes of the customer identified by `id`

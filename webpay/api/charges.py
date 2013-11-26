@@ -28,11 +28,13 @@ class Charges:
         """Refund the charge identified by `id`
         """
         assertId(id)
-        return Charge(self.__client, self.__client.post('/charges/%s/refund' % id, {'amount': amount}))
+        return Charge(self.__client, self.__client.post(
+            '/charges/%s/refund' % id, {'amount': amount}))
 
     def capture(self, id, amount=None):
         """Capture the charge identified by `id`.
         It must be not captured.
         """
         assertId(id)
-        return Charge(self.__client, self.__client.post('/charges/%s/capture' % id, {'amount': amount}))
+        return Charge(self.__client, self.__client.post(
+            '/charges/%s/capture' % id, {'amount': amount}))

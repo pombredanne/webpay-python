@@ -19,13 +19,15 @@ class Customer(Model):
         Following fields are updated:
         - `email`
         - `description`
-        - `new_card`: `active_card` is a Card object, `new_card` is a dict. Setting new card info as a dict to `active_card` has no effect.
+        - `new_card`: `active_card` is a Card object, `new_card` is a dict.
+          Setting new card info as a dict to `active_card` has no effect.
         """
 
         params = {}
         if hasattr(self, 'email') and self._data['email'] != self.email:
             params['email'] = self.email
-        if hasattr(self, 'description') and self._data['description'] != self.description:
+        if hasattr(self, 'description') \
+                and self._data['description'] != self.description:
             params['description'] = self.description
         if hasattr(self, 'new_card') and self.new_card is not None:
             params['card'] = self.new_card

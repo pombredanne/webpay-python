@@ -29,7 +29,8 @@ class TestCustomers:
 
     def test_retrieve(self):
         id = 'cus_39o4Fv82E1et5Xb'
-        with HTTMock(helper.mock_api('/customers/' + id, 'customers/retrieve.txt')):
+        with HTTMock(helper.mock_api('/customers/' + id,
+                                     'customers/retrieve.txt')):
             customer = WebPay('test_key').customers.retrieve(id)
 
         assert customer.id == id
@@ -38,14 +39,15 @@ class TestCustomers:
 
     def test_retrieve_without_id(self):
         with pytest.raises(errors.InvalidRequestError) as excinfo:
-            customer = WebPay('test_key').customers.retrieve('')
+            WebPay('test_key').customers.retrieve('')
         exc = excinfo.value
         assert exc.type == 'invalid_request_error'
         assert exc.param == 'id'
 
     def test_retrieve_deleted_customer(self):
         id = 'cus_7GafGMbML8R28Io'
-        with HTTMock(helper.mock_api('/customers/' + id, 'customers/retrieve_deleted.txt')):
+        with HTTMock(helper.mock_api('/customers/' + id,
+                                     'customers/retrieve_deleted.txt')):
             customer = WebPay('test_key').customers.retrieve(id)
 
         assert customer.id == id
@@ -53,7 +55,9 @@ class TestCustomers:
 
     def test_all(self):
         conds = {'count': 3, 'offset': 0, 'created': {'gt': 1378000000}}
-        with HTTMock(helper.mock_api('/customers', 'customers/all.txt', data=conds)):
+        with HTTMock(helper.mock_api('/customers',
+                                     'customers/all.txt',
+                                     data=conds)):
             customers = WebPay('test_api').customers.all(**conds)
 
         assert customers.url == '/v1/customers'
@@ -62,7 +66,8 @@ class TestCustomers:
 
     def test_save(self):
         id = 'cus_39o4Fv82E1et5Xb'
-        with HTTMock(helper.mock_api('/customers/' + id, 'customers/retrieve.txt')):
+        with HTTMock(helper.mock_api('/customers/' + id,
+                                     'customers/retrieve.txt')):
             customer = WebPay('test_key').customers.retrieve(id)
 
         old_card = customer.active_card
@@ -85,7 +90,9 @@ class TestCustomers:
         assert customer.email == 'newmail@example.com'
         assert customer.active_card == old_card
 
-        with HTTMock(helper.mock_api('/customers/' + id, 'customers/update.txt', data=expected)):
+        with HTTMock(helper.mock_api('/customers/' + id,
+                                     'customers/update.txt',
+                                     data=expected)):
             customer.save()
 
         assert customer.email == 'newmail@example.com'
@@ -93,17 +100,21 @@ class TestCustomers:
 
     def test_save_only_updated_fields(self):
         id = 'cus_39o4Fv82E1et5Xb'
-        with HTTMock(helper.mock_api('/customers/' + id, 'customers/retrieve.txt')):
+        with HTTMock(helper.mock_api('/customers/' + id,
+                                     'customers/retrieve.txt')):
             customer = WebPay('test_key').customers.retrieve(id)
 
         customer.email = 'newmail@example.com'
-        with HTTMock(helper.mock_api('/customers/' + id, 'customers/update.txt', data={'email': 'newmail@example.com'})):
+        with HTTMock(helper.mock_api('/customers/' + id,
+                                     'customers/update.txt',
+                                     data={'email': 'newmail@example.com'})):
             customer.save()
         assert customer.email == 'newmail@example.com'
 
     def test_calling_save_twice_sends_nothing(self):
         id = 'cus_39o4Fv82E1et5Xb'
-        with HTTMock(helper.mock_api('/customers/' + id, 'customers/retrieve.txt')):
+        with HTTMock(helper.mock_api('/customers/' + id,
+                                     'customers/retrieve.txt')):
             customer = WebPay('test_key').customers.retrieve(id)
 
         expected = {
@@ -122,16 +133,22 @@ class TestCustomers:
         customer.description = expected['description']
         customer.new_card = expected['card']
 
-        with HTTMock(helper.mock_api('/customers/' + id, 'customers/update.txt', data=expected)):
+        with HTTMock(helper.mock_api('/customers/' + id,
+                                     'customers/update.txt',
+                                     data=expected)):
             customer.save()
 
-        with HTTMock(helper.mock_api('/customers/' + id, 'customers/update.txt', data={})):
+        with HTTMock(helper.mock_api('/customers/' + id,
+                                     'customers/update.txt',
+                                     data={})):
             customer.save()
 
     def test_delete(self):
         id = 'cus_39o4Fv82E1et5Xb'
-        with HTTMock(helper.mock_api('/customers/' + id, 'customers/retrieve.txt')):
+        with HTTMock(helper.mock_api('/customers/' + id,
+                                     'customers/retrieve.txt')):
             customer = WebPay('test_key').customers.retrieve(id)
 
-        with HTTMock(helper.mock_api('/customers/' + id, 'customers/delete.txt')):
+        with HTTMock(helper.mock_api('/customers/' + id,
+                                     'customers/delete.txt')):
             assert customer.delete()

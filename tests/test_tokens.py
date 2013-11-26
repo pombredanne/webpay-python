@@ -17,7 +17,9 @@ class TestTokens:
     }
 
     def test_create(self):
-        with HTTMock(helper.mock_api('/tokens', 'tokens/create.txt', data={'card': self._card_data})):
+        with HTTMock(helper.mock_api('/tokens',
+                                     'tokens/create.txt',
+                                     data={'card': self._card_data})):
             token = WebPay('test_key').tokens.create(card=self._card_data)
 
         assert token.id == 'tok_3dw2T20rzekM1Kf'
@@ -25,7 +27,9 @@ class TestTokens:
         assert token.card.name == 'YUUKO SHIONJI'
 
     def test_create_without_card_key(self):
-        with HTTMock(helper.mock_api('/tokens', 'tokens/create.txt', data={'card': self._card_data})):
+        with HTTMock(helper.mock_api('/tokens',
+                                     'tokens/create.txt',
+                                     data={'card': self._card_data})):
             token = WebPay('test_key').tokens.create(**self._card_data)
 
         assert token.id == 'tok_3dw2T20rzekM1Kf'
@@ -40,7 +44,7 @@ class TestTokens:
 
     def test_retrieve_without_id(self):
         with pytest.raises(errors.InvalidRequestError) as excinfo:
-            token = WebPay('test_key').tokens.retrieve('')
+            WebPay('test_key').tokens.retrieve('')
         exc = excinfo.value
         assert exc.type == 'invalid_request_error'
         assert exc.param == 'id'

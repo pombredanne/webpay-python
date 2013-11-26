@@ -1,10 +1,8 @@
 # coding: utf-8
 from webpay.webpay import WebPay
 from httmock import HTTMock
-import pytest
 
 import tests.helper as helper
-import webpay.errors as errors
 
 
 class TestAccount:

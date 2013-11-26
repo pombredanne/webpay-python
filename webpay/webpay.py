@@ -20,7 +20,8 @@ class WebPay:
 
         Attributes:
         - `key`: secret API key which is in `https://webpay.jp/settings`.
-        - `api_base`: optional. Specify full URL of api base. Default is `https://api.webpay.jp/v1`.
+        - `api_base`: optional. Specify full URL of api base.
+          Default is `https://api.webpay.jp/v1`.
         """
         self.key = key
         self.api_base = api_base

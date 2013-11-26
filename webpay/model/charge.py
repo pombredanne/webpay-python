@@ -12,17 +12,20 @@ class Charge(Model):
         """Refund this charge.
 
         Arguments:
-        - `amount`: amount to refund.  If `amount` is not given or `None`, refund all.
+        - `amount`: amount to refund.
+          If `amount` is not given or `None`, refund all.
           If `amount` is less than this charge's amount, refund partially.
         """
         self._update_attributes(self._client.charges.refund(self.id, amount))
 
     def capture(self, amount=None):
         """Capture this charge.
-        This charge should be uncaptured (created with capture=false) and not yet expired.
+        This charge should be uncaptured (created with capture=false) and not
+        yet expired.
 
         Arguments:
-        - `amount`: amount to capture.  If `amount` is not given or `None`, use `this.amount`.
+        - `amount`: amount to capture.
+          If `amount` is not given or `None`, use `this.amount`.
         """
         self._update_attributes(self._client.charges.capture(self.id, amount))
 

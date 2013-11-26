@@ -30,18 +30,20 @@ class TestCharges:
 
     def test_retrieve(self):
         id = 'ch_bWp5EG9smcCYeEx'
-        with HTTMock(helper.mock_api('/charges/' + id, 'charges/retrieve.txt')):
+        with HTTMock(helper.mock_api('/charges/' + id,
+                                     'charges/retrieve.txt')):
             charge = WebPay('test_key').charges.retrieve(id)
 
         assert charge.id == id
         # アイテムの購入
         assert charge.description.encode('utf-8') == \
-            b'\xe3\x82\xa2\xe3\x82\xa4\xe3\x83\x86\xe3\x83\xa0\xe3\x81\xae\xe8\xb3\xbc\xe5\x85\xa5'
+            b'\xe3\x82\xa2\xe3\x82\xa4\xe3\x83\x86\xe3\x83\xa0\xe3\x81\xae' + \
+            b'\xe8\xb3\xbc\xe5\x85\xa5'
         assert charge.card.name == 'KEI KUBO'
 
     def test_retrieve_without_id(self):
         with pytest.raises(errors.InvalidRequestError) as excinfo:
-            charge = WebPay('test_key').charges.retrieve('')
+            WebPay('test_key').charges.retrieve('')
         exc = excinfo.value
         assert exc.type == 'invalid_request_error'
         assert exc.param == 'id'
@@ -57,9 +59,11 @@ class TestCharges:
 
     def test_refund(self):
         id = 'ch_bWp5EG9smcCYeEx'
-        with HTTMock(helper.mock_api('/charges/' + id, 'charges/retrieve.txt')):
+        with HTTMock(helper.mock_api('/charges/' + id,
+                                     'charges/retrieve.txt')):
             charge = WebPay('test_key').charges.retrieve(id)
-        with HTTMock(helper.mock_api('/charges/%s/refund' % id, 'charges/refund.txt')):
+        with HTTMock(helper.mock_api('/charges/%s/refund' % id,
+                                     'charges/refund.txt')):
             charge.refund(400)
 
         assert charge.refunded
@@ -67,9 +71,11 @@ class TestCharges:
 
     def test_refund_without_amount(self):
         id = 'ch_bWp5EG9smcCYeEx'
-        with HTTMock(helper.mock_api('/charges/' + id, 'charges/retrieve.txt')):
+        with HTTMock(helper.mock_api('/charges/' + id,
+                                     'charges/retrieve.txt')):
             charge = WebPay('test_key').charges.retrieve(id)
-        with HTTMock(helper.mock_api('/charges/%s/refund' % id, 'charges/refund.txt')):
+        with HTTMock(helper.mock_api('/charges/%s/refund' % id,
+                                     'charges/refund.txt')):
             charge.refund()
 
         assert charge.refunded
@@ -77,9 +83,11 @@ class TestCharges:
 
     def test_capture(self):
         id = 'ch_2X01NDedxdrRcA3'
-        with HTTMock(helper.mock_api('/charges/' + id, 'charges/retrieve_not_captured.txt')):
+        with HTTMock(helper.mock_api('/charges/' + id,
+                                     'charges/retrieve_not_captured.txt')):
             charge = WebPay('test_key').charges.retrieve(id)
-        with HTTMock(helper.mock_api('/charges/%s/capture' % id, 'charges/capture.txt')):
+        with HTTMock(helper.mock_api('/charges/%s/capture' % id,
+                                     'charges/capture.txt')):
             charge.capture(1000)
 
         assert charge.captured

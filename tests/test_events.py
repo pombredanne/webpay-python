@@ -19,14 +19,16 @@ class TestEvents:
 
     def test_retrieve_without_id(self):
         with pytest.raises(errors.InvalidRequestError) as excinfo:
-            event = WebPay('test_key').events.retrieve('')
+            WebPay('test_key').events.retrieve('')
         exc = excinfo.value
         assert exc.type == 'invalid_request_error'
         assert exc.param == 'id'
 
     def test_all(self):
         conds = {'type': '*.created'}
-        with HTTMock(helper.mock_api('/events', 'events/all_with_type.txt', data=conds)):
+        with HTTMock(helper.mock_api('/events',
+                                     'events/all_with_type.txt',
+                                     data=conds)):
             events = WebPay('test_api').events.all(**conds)
 
         assert events.url == '/v1/events'
