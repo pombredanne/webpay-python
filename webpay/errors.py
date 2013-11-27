@@ -46,7 +46,7 @@ class InvalidRequestError(WebPayError):
     def __init__(self, status, error_info):
         WebPayError.__init__(self, error_info['message'], status, error_info)
         self.type = error_info['type']
-        self.param = error_info['param'] if 'param' in error_info else None
+        self.param = error_info.get('param')
 
     @staticmethod
     def empty_id_error():
