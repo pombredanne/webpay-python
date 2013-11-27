@@ -11,7 +11,7 @@ CPython 2.6, 2.7, 3.2, 3.3
 # Usage
 
 ```python
-from webpay.webpay import WebPay
+from webpay import WebPay
 webpay = WebPay('YOUR_TEST_SECRET_KEY')
 
 webpay.charges.create(
