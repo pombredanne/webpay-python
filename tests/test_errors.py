@@ -5,10 +5,13 @@ import pytest
 import tests.helper as helper
 import webpay.errors as errors
 
+
 class TestErrors:
+
     def test_request_raises_api_exception(self):
         with pytest.raises(errors.ApiError) as excinfo:
-            with HTTMock(helper.mock_api('/charges', 'errors/unknown_api_error.txt')):
+            with HTTMock(helper.mock_api('/charges',
+                                         'errors/unknown_api_error.txt')):
                 WebPay('test_key').charges.all()
         exc = excinfo.value
         assert exc.__str__() == 'Unknown error occurred'
@@ -17,7 +20,8 @@ class TestErrors:
 
     def test_request_raises_invalid_request(self):
         with pytest.raises(errors.InvalidRequestError) as excinfo:
-            with HTTMock(helper.mock_api('/charges', 'errors/bad_request.txt')):
+            with HTTMock(helper.mock_api('/charges',
+                                         'errors/bad_request.txt')):
                 WebPay('test_key').charges.all()
         exc = excinfo.value
         assert exc.__str__() == 'Missing required param: currency'
@@ -27,7 +31,8 @@ class TestErrors:
 
     def test_request_raises_not_found(self):
         with pytest.raises(errors.InvalidRequestError) as excinfo:
-            with HTTMock(helper.mock_api('/charges', 'errors/not_found.txt')):
+            with HTTMock(helper.mock_api('/charges',
+                                         'errors/not_found.txt')):
                 WebPay('test_key').charges.all()
         exc = excinfo.value
         assert exc.__str__() == 'No such charge: foo'
@@ -37,15 +42,18 @@ class TestErrors:
 
     def test_request_raises_unauthorized(self):
         with pytest.raises(errors.AuthenticationError) as excinfo:
-            with HTTMock(helper.mock_api('/charges', 'errors/unauthorized.txt')):
+            with HTTMock(helper.mock_api('/charges',
+                                         'errors/unauthorized.txt')):
                 WebPay('test_key').charges.all()
         exc = excinfo.value
-        assert exc.__str__() == 'Invalid API key provided. Check your API key is correct.'
+        assert exc.__str__() == \
+            'Invalid API key provided. Check your API key is correct.'
         assert exc.status == 401
 
     def test_request_raises_card_error(self):
         with pytest.raises(errors.CardError) as excinfo:
-            with HTTMock(helper.mock_api('/charges', 'errors/card_error.txt')):
+            with HTTMock(helper.mock_api('/charges',
+                                         'errors/card_error.txt')):
                 WebPay('test_key').charges.all()
         exc = excinfo.value
         assert exc.__str__() == 'Your card number is incorrect'
@@ -56,7 +64,8 @@ class TestErrors:
 
     def test_server_not_found(self):
         with pytest.raises(errors.ApiConnectionError) as excinfo:
-            with HTTMock(helper.mock_api('/charges', 'errors/not_found.txt')):
+            with HTTMock(helper.mock_api('/charges',
+                                         'errors/not_found.txt')):
                 WebPay('test_key', 'http://localhost:123').charges.all()
         exc = excinfo.value
         assert 'Error while requesting API' in exc.__str__()
@@ -65,7 +74,8 @@ class TestErrors:
 
     def test_response_json_is_broken(self):
         with pytest.raises(errors.ApiConnectionError) as excinfo:
-            with HTTMock(helper.mock_api('/charges', 'errors/broken_json.txt')):
+            with HTTMock(helper.mock_api('/charges',
+                                         'errors/broken_json.txt')):
                 WebPay('test_key').charges.all()
         exc = excinfo.value
         assert 'Error while parsing response JSON' in exc.__str__()

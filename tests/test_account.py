@@ -1,12 +1,12 @@
 # coding: utf-8
 from webpay.webpay import WebPay
 from httmock import HTTMock
-import pytest
 
 import tests.helper as helper
-import webpay.errors as errors
+
 
 class TestAccount:
+
     def test_retrieve(self):
         with HTTMock(helper.mock_api('/account', 'account/retrieve.txt')):
             account = WebPay('test_key').account.retrieve()

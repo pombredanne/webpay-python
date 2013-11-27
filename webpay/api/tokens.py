@@ -1,8 +1,9 @@
 from webpay.model.token import Token
-from webpay.model.entity_list import EntityList
 from .helpers import assertId
 
+
 class Tokens:
+
     def __init__(self, webpay):
         self.__client = webpay
 

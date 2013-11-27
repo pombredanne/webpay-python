@@ -2,7 +2,9 @@ from webpay.model.charge import Charge
 from webpay.model.entity_list import EntityList
 from .helpers import assertId
 
+
 class Charges:
+
     def __init__(self, webpay):
         self.__client = webpay
 
@@ -22,15 +24,17 @@ class Charges:
         """
         return EntityList(self.__client, self.__client.get('/charges', params))
 
-    def refund(self, id, amount = None):
+    def refund(self, id, amount=None):
         """Refund the charge identified by `id`
         """
         assertId(id)
-        return Charge(self.__client, self.__client.post('/charges/%s/refund' % id, {'amount': amount}))
+        return Charge(self.__client, self.__client.post(
+            '/charges/%s/refund' % id, {'amount': amount}))
 
-    def capture(self, id, amount = None):
+    def capture(self, id, amount=None):
         """Capture the charge identified by `id`.
         It must be not captured.
         """
         assertId(id)
-        return Charge(self.__client, self.__client.post('/charges/%s/capture' % id, {'amount': amount}))
+        return Charge(self.__client, self.__client.post(
+            '/charges/%s/capture' % id, {'amount': amount}))

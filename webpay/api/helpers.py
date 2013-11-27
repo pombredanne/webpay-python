@@ -1,5 +1,6 @@
 import webpay.errors
 
+
 def assertId(id):
     """[Internal]  Assert id is not empty
     """
