@@ -1,5 +1,9 @@
 webpay-python is a client library for python of [WebPay](https://webpay.jp).
 
+# Requirements
+
+CPython 2.6, 2.7, 3.2, 3.3
+
 # Installation
 
     $ pip install webpay
