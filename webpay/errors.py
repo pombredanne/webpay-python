@@ -1,10 +1,10 @@
-class WebPayError(RuntimeError):
+class WebPayError(Exception):
 
     """Base class for errors related to webpay library.
     """
 
     def __init__(self, message, status, error_info):
-        RuntimeError.__init__(self, message)
+        Exception.__init__(self, message)
         self.status = status
         self.error_info = error_info
 
