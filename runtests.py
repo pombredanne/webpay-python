@@ -2835,7 +2835,7 @@ class DictImporter(object):
         if is_pkg:
             module.__path__ = [fullname]
 
-        do_exec(co, module.__dict__)
+        do_exec(co, module.__dict__)  # noqa
         return sys.modules[fullname]
 
     def get_source(self, name):
@@ -2859,4 +2859,4 @@ if __name__ == "__main__":
     sys.meta_path.insert(0, importer)
 
     entry = "import py; raise SystemExit(py.test.cmdline.main())"
-    do_exec(entry, locals())
+    do_exec(entry, locals())  # noqa
