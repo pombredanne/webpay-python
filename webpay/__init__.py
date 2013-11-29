@@ -1,1 +1,1 @@
-from .webpay import WebPay
+from .webpay import WebPay  # noqa
