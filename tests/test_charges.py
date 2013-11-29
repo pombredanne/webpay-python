@@ -1,5 +1,5 @@
 # coding: utf-8
-from webpay.webpay import WebPay
+from webpay import WebPay
 from httmock import HTTMock
 import pytest
 
