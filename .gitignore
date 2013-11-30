@@ -1,2 +1,6 @@
 __pycache__/
-*.pyc
+*.py[co]
+/MANIFEST
+/dist/
+/.tox
+/build/
