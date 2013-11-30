@@ -16,6 +16,10 @@ class PyTest(Command):
         errno = subprocess.call([sys.executable, 'runtests.py'])
         raise SystemExit(errno)
 
+
+with open('README.rst') as file:
+    long_description = file.read()
+
 setup(
     name='webpay',
     packages=['webpay'],
@@ -25,6 +29,7 @@ setup(
     url='https://github.com/webpay/webpay-python',
     description='WebPay Python bindings',
     cmdclass={'test': PyTest},
+    long_description=long_description,
     classifiers=[
         'Development Status :: 4 - Beta',
         'Operating System :: OS Independent',
