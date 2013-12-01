@@ -22,7 +22,7 @@ with open('README.rst') as file:
 
 setup(
     name='webpay',
-    packages=['webpay'],
+    packages=['webpay', 'webpay.api', 'webpay.model'],
     version='0.1.0',
     author='webpay',
     author_email='administrators@webpay.jp',
