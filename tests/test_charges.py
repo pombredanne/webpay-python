@@ -56,6 +56,7 @@ class TestCharges:
         assert charges.url == '/v1/charges'
         assert charges.data[0].description == 'Test Charge from Java'
         assert charges.data[0].card.name == 'KEI KUBO'
+        assert charges._client == charges.data[0]._client
 
     def test_refund(self):
         id = 'ch_bWp5EG9smcCYeEx'
@@ -68,6 +69,7 @@ class TestCharges:
 
         assert charge.refunded
         assert charge.amount_refunded == 400
+        assert charge._data['amount_refunded'] == 400
 
     def test_refund_without_amount(self):
         id = 'ch_bWp5EG9smcCYeEx'
