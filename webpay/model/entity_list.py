@@ -9,6 +9,10 @@ class EntityList(Model):
     """
 
     def __init__(self, client, data):
-        convert_list = lambda c, v: list(map(data_to_object_converter(c), v))
-        conversion = lambda k: convert_list if k == 'data' else None
-        Model.__init__(self, client, data, conversion)
+        Model.__init__(self, client, data)
+
+    def _instantiate_field(self, key, value):
+        if key == 'data':
+            return list(map(data_to_object_converter(self._client), value))
+        else:
+            return Model._instantiate_field(self, key, value)

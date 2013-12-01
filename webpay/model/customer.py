@@ -5,8 +5,13 @@ from .model import Model
 class Customer(Model):
 
     def __init__(self, client, data):
-        conversion = lambda k: Card if k == 'active_card' else None
-        Model.__init__(self, client, data, conversion)
+        Model.__init__(self, client, data)
+
+    def _instantiate_field(self, key, value):
+        if key == 'active_card':
+            return Card(self._client, value)
+        else:
+            return Model._instantiate_field(self, key, value)
 
     def is_deleted(self):
         """ Always returns `False`
@@ -39,9 +44,3 @@ class Customer(Model):
         """Delete this customer from WebPay
         """
         return self._client.customers.delete(self.id)
-
-    def _update_attributes(self, new_customer):
-        self._data = new_customer._data
-        for k, v in new_customer._data.items():
-            self.__dict__[k] = \
-                Card(self._client, v) if k == 'active_card' else v
