@@ -5,8 +5,13 @@ from .model import Model
 class Charge(Model):
 
     def __init__(self, client, data):
-        conversion = lambda k: Card if k == 'card' else None
-        Model.__init__(self, client, data, conversion)
+        Model.__init__(self, client, data)
+
+    def _instantiate_field(self, key, value):
+        if key == 'card':
+            return Card(self._client, value)
+        else:
+            return Model._instantiate_field(self, key, value)
 
     def refund(self, amount=None):
         """Refund this charge.
@@ -28,8 +33,3 @@ class Charge(Model):
           If `amount` is not given or `None`, use `this.amount`.
         """
         self._update_attributes(self._client.charges.capture(self.id, amount))
-
-    def _update_attributes(self, new_charge):
-        self._data = new_charge._data
-        for k, v in new_charge._data.items():
-            self.__dict__[k] = Card(self._client, v) if k == 'card' else v

@@ -5,5 +5,10 @@ from .model import Model
 class Token(Model):
 
     def __init__(self, client, data):
-        conversion = lambda k: Card if k == 'card' else None
-        Model.__init__(self, client, data, conversion)
+        Model.__init__(self, client, data)
+
+    def _instantiate_field(self, key, value):
+        if key == 'card':
+            return Card(self._client, value)
+        else:
+            return Model._instantiate_field(self, key, value)
