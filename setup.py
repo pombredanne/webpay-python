@@ -31,7 +31,7 @@ setup(
     cmdclass={'test': PyTest},
     long_description=long_description,
     classifiers=[
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
         'Operating System :: OS Independent',
         'License :: OSI Approved :: MIT License',
         'Intended Audience :: Developers',
