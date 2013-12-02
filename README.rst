@@ -1,3 +1,9 @@
+webpay-python
+============
+
+.. image:: https://api.travis-ci.org/webpay/webpay-python.png
+    :target: http://travis-ci.org/webpay/webpay-python
+
 webpay-python is a client library for python of `WebPay <https://webpay.jp>`_.
 
 Requirements
