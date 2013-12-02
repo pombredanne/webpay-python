@@ -1,6 +1,9 @@
 webpay-python
 ============
 
+.. image:: https://badge.fury.io/py/webpay.png
+    :target: http://badge.fury.io/py/webpay
+
 .. image:: https://api.travis-ci.org/webpay/webpay-python.png
     :target: http://travis-ci.org/webpay/webpay-python
 
