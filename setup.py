@@ -46,7 +46,7 @@ setup(
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Software Development :: Libraries :: Python Modules'
     ],
-    requires=[
-        'requests (== 2.0.1)'
+    install_requires=[
+        'requests==2.0.1'
     ]
 )
