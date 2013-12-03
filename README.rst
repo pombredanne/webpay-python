@@ -1,5 +1,5 @@
 webpay-python
-============
+====================================
 
 .. image:: https://badge.fury.io/py/webpay.png
     :target: http://badge.fury.io/py/webpay
@@ -10,19 +10,19 @@ webpay-python
 webpay-python is a client library for python of `WebPay <https://webpay.jp>`_.
 
 Requirements
-============
+====================================
 
 CPython 2.6, 2.7, 3.2, 3.3
 
 Installation
-============
+====================================
 
 ::
 
     $ pip install webpay
 
 Usage
-=====
+====================================
 
 .. code:: python
 
@@ -45,15 +45,15 @@ See `Python API document <https://webpay.jp/docs/api/python>`_ on WebPay
 official page for more details.
 
 Dependencies
-============
+====================================
 
 -   `kennethreitz/requests <https://github.com/kennethreitz/requests>`_
 
 Development
-===========
+====================================
 
 Testing
--------
+-----------------------------------
 
 ::
 
@@ -61,7 +61,7 @@ Testing
     $ py.test
 
 License
-=======
+====================================
 
 `The MIT License (MIT) <http://opensource.org/licenses/mit-license.html>`_
 

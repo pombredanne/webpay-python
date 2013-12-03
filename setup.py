@@ -1,4 +1,4 @@
-from distutils.core import setup, Command
+from setuptools import setup, Command
 
 
 class PyTest(Command):
@@ -23,7 +23,7 @@ with open('README.rst') as file:
 setup(
     name='webpay',
     packages=['webpay', 'webpay.api', 'webpay.model'],
-    version='1.0.2',
+    version='1.0.3',
     author='webpay',
     author_email='administrators@webpay.jp',
     url='https://github.com/webpay/webpay-python',
