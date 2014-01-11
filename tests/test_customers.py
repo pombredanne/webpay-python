@@ -93,10 +93,11 @@ class TestCustomers:
         with HTTMock(helper.mock_api('/customers/' + id,
                                      'customers/update.txt',
                                      data=expected)):
-            customer.save()
+            new_customer = customer.save()
 
         assert customer.email == 'newmail@example.com'
         assert customer.active_card.exp_year == 2016
+        assert new_customer == customer
 
     def test_save_only_updated_fields(self):
         id = 'cus_39o4Fv82E1et5Xb'

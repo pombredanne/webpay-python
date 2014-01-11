@@ -39,6 +39,7 @@ class Customer(Model):
             self.new_card = None
 
         self._update_attributes(self._client.customers.save(self.id, **params))
+        return self
 
     def delete(self):
         """Delete this customer from WebPay
