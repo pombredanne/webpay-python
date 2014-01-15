@@ -49,7 +49,7 @@ class CardError(WebPayError):
         WebPayError.__init__(self, error_info['message'], status, error_info)
         self.type = error_info['type']
         self.code = error_info['code']
-        self.param = error_info['param']
+        self.param = error_info.get('param')
 
 
 class InvalidRequestError(WebPayError):

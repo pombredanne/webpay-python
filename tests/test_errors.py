@@ -62,6 +62,18 @@ class TestErrors:
         assert exc.param == 'number'
         assert exc.status == 402
 
+    def test_request_raises_card_error_without_param(self):
+        with pytest.raises(errors.CardError) as excinfo:
+            with HTTMock(helper.mock_api('/charges',
+                                         'errors/card_error_declined.txt')):
+                WebPay('test_key').charges.all()
+        exc = excinfo.value
+        assert exc.__str__() == 'This card cannot be used.'
+        assert exc.type == 'card_error'
+        assert exc.code == 'card_declined'
+        assert exc.param is None
+        assert exc.status == 402
+
     def test_server_not_found(self):
         with pytest.raises(errors.ApiConnectionError) as excinfo:
             with HTTMock(helper.mock_api('/charges',
