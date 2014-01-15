@@ -40,6 +40,16 @@ class TestErrors:
         assert exc.param == 'id'
         assert exc.status == 404
 
+    def test_request_raises_not_found_without_params(self):
+        with pytest.raises(errors.InvalidRequestError) as excinfo:
+            with HTTMock(helper.mock_api('/charges',
+                                         'errors/not_found_url.txt')):
+                WebPay('test_key').charges.all()
+        exc = excinfo.value
+        assert exc.__str__() == 'Unrecognized request URL.'
+        assert exc.type == 'invalid_request_error'
+        assert exc.status == 404
+
     def test_request_raises_unauthorized(self):
         with pytest.raises(errors.AuthenticationError) as excinfo:
             with HTTMock(helper.mock_api('/charges',
@@ -60,6 +70,18 @@ class TestErrors:
         assert exc.type == 'card_error'
         assert exc.code == 'incorrect_number'
         assert exc.param == 'number'
+        assert exc.status == 402
+
+    def test_request_raises_card_error_without_param(self):
+        with pytest.raises(errors.CardError) as excinfo:
+            with HTTMock(helper.mock_api('/charges',
+                                         'errors/card_error_declined.txt')):
+                WebPay('test_key').charges.all()
+        exc = excinfo.value
+        assert exc.__str__() == 'This card cannot be used.'
+        assert exc.type == 'card_error'
+        assert exc.code == 'card_declined'
+        assert exc.param is None
         assert exc.status == 402
 
     def test_server_not_found(self):
