@@ -40,6 +40,16 @@ class TestErrors:
         assert exc.param == 'id'
         assert exc.status == 404
 
+    def test_request_raises_not_found_without_params(self):
+        with pytest.raises(errors.InvalidRequestError) as excinfo:
+            with HTTMock(helper.mock_api('/charges',
+                                         'errors/not_found_url.txt')):
+                WebPay('test_key').charges.all()
+        exc = excinfo.value
+        assert exc.__str__() == 'Unrecognized request URL.'
+        assert exc.type == 'invalid_request_error'
+        assert exc.status == 404
+
     def test_request_raises_unauthorized(self):
         with pytest.raises(errors.AuthenticationError) as excinfo:
             with HTTMock(helper.mock_api('/charges',
