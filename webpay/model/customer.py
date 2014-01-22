@@ -8,7 +8,7 @@ class Customer(Model):
         Model.__init__(self, client, data)
 
     def _instantiate_field(self, key, value):
-        if key == 'active_card':
+        if key == 'active_card' and value is not None:
             return Card(self._client, value)
         else:
             return Model._instantiate_field(self, key, value)
