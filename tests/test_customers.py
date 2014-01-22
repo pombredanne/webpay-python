@@ -37,6 +37,16 @@ class TestCustomers:
         assert not customer.is_deleted()
         assert customer.active_card.name == 'YUUKO SHIONJI'
 
+    def test_retrieve_no_card_customer(self):
+        id = 'cus_eS6dGfa8BeUlbSQ'
+        with HTTMock(helper.mock_api('/customers/' + id,
+                                     'customers/retrieve_no_card.txt')):
+            customer = WebPay('test_key').customers.retrieve(id)
+
+        assert customer.id == id
+        assert not customer.is_deleted()
+        assert customer.active_card is None
+
     def test_retrieve_without_id(self):
         with pytest.raises(errors.InvalidRequestError) as excinfo:
             WebPay('test_key').customers.retrieve('')
