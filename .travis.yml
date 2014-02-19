@@ -13,3 +13,7 @@ env:
 
 script:
   - tox
+
+notifications:
+  webhooks:
+    secure: "bhp+RSiGK0JmMtXjxxXwYCZRdEXuyIBVUcbokHnEtbjO1zdmXw49KdiqnCrDU29/g9l/RMESsBybVB1CpISPsoKVDoXeULyx84F7IZ2OkmF0qkSH8ju+rrKCaMYxDik+7hoNeVX8tloDkaXm1GhN2FIcesshv5mVr0oQpUiPcU8="
