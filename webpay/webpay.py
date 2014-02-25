@@ -3,6 +3,7 @@ from . import errors
 
 import requests
 import json
+import copy
 
 
 class WebPay:
@@ -11,9 +12,10 @@ class WebPay:
     See `API reference<https://webpay.jp/docs/api/python>`.
     """
 
-    _headers = {
+    _default_headers = {
         'Content-Type': 'application/json',
-        'Accept': 'application/json'}
+        'Accept': 'application/json',
+        'Accept-Language': 'en'}
 
     def __init__(self, key, api_base='https://api.webpay.jp/v1'):
         """Instantiate WebPay API client
@@ -25,11 +27,15 @@ class WebPay:
         """
         self.key = key
         self.api_base = api_base
+        self._headers = copy.copy(self._default_headers)
         self.account = Account(self)
         self.charges = Charges(self)
         self.customers = Customers(self)
         self.events = Events(self)
         self.tokens = Tokens(self)
+
+    def accept_language(self, language):
+        self._headers['Accept-Language'] = language
 
     def post(self, path, params):
         return self._request('post', path, params)
