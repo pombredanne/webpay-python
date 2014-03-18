@@ -30,6 +30,8 @@ class WebPay:
         self.customers = Customers(self)
         self.events = Events(self)
         self.tokens = Tokens(self)
+        # Pass the timeout parameter to requests
+        self.timeout = None
 
     def post(self, path, params):
         return self._request('post', path, params)
@@ -45,7 +47,8 @@ class WebPay:
             r = requests.request(method, self.api_base + path,
                                  auth=(self.key, ''),
                                  data = json.dumps(params),
-                                 headers = self._headers)
+                                 headers = self._headers,
+                                 timeout = self.timeout)
         except requests.RequestException as exc:
             raise errors.ApiConnectionError(
                 "Error while requesting API %s:%s" % (type(exc), exc),
