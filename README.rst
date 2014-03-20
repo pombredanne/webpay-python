@@ -26,10 +26,10 @@ Usage
 
 .. code:: python
 
-    from webpay import WebPay
-    webpay = WebPay('YOUR_TEST_SECRET_KEY')
+    import webpay
+    client = WebPay('YOUR_TEST_SECRET_KEY')
 
-    webpay.charges.create(
+    client.charges.create(
       amount=400,
       currency="jpy",
       card={
