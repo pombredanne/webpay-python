@@ -27,7 +27,7 @@ Usage
 .. code:: python
 
     import webpay
-    client = WebPay('YOUR_TEST_SECRET_KEY')
+    client = webpay.WebPay('YOUR_TEST_SECRET_KEY')
 
     client.charges.create(
       amount=400,
